@@ -21,10 +21,13 @@ public class DataGenerator {
     }
 
     public String changeLogin(String unsuitedLogin) {
-        String result;
-        do {
-            result = loginGenerator();
-        } while (result.equals(unsuitedLogin));
+        String result = loginGenerator();
+
+        for (int i = 0; i < 3; i++) {
+            if (result.equals(unsuitedLogin)) {
+                result = loginGenerator();
+            } else break;
+        }
         return result;
     }
 
@@ -33,19 +36,22 @@ public class DataGenerator {
     }
 
     public String changePassword(String unsuitedPassword) {
-        String result;
-        do {
-            result = passwordGenerator();
-        } while (result.equals(unsuitedPassword));
+        String result = passwordGenerator();
+
+        for (int i = 0; i < 3; i++) {
+            if (result.equals(unsuitedPassword)) {
+                result = passwordGenerator();
+            } else break;
+        }
         return result;
     }
 
     public UserData getUser(String status) {
-        return UserData.builder()
-                .login(loginGenerator())
-                .password(passwordGenerator())
-                .status(status)
-                .build();
+        return new UserData(
+                loginGenerator(),
+                passwordGenerator(),
+                status
+        );
     }
 
     private RequestSpecification requestSpec = new RequestSpecBuilder()
